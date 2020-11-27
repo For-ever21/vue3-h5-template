@@ -1,0 +1,106 @@
+/**
+* Triangle 在元素上添加小三角形
+* $direction: up | down | left | right 三角形箭头方向
+* $size: 8px 三角形大小，默认为8px
+* $color: #222 三角形颜色, 默认为 #222
+*/
+.triangle(@direction: down, @size: 10px, @color: #000) {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 0;
+  width: 0;
+
+
+  & when (@direction = down) {
+    border-color: @color transparent transparent transparent;
+    border-style: solid dashed dashed dashed;
+    border-width: @size @size 0 @size;
+  }
+  & when (@direction = up) {
+    border-color: transparent transparent @color transparent;
+    border-style: dashed dashed solid dashed;
+    border-width: 0 @size @size @size;
+  }
+  & when ( @direction = right) {
+    border-color: transparent transparent transparent @color;
+    border-style: dashed dashed dashed solid;
+    border-width: @size 0 @size @size;
+  }
+  & when (@direction = left) {
+    border-color: transparent @color transparent transparent;
+    border-style: dashed solid dashed dashed;
+    border-width: @size @size @size 0;
+  }
+}
+
+//----------------------------------
+// 文本占位符样式重置
+//----------------------------------
+
+.placeholder(@color: @input-color-placeholder) {
+  /* Firefox 4-18 */
+  &:-moz-placeholder {
+    color: @color;
+  }
+
+  // Firefox
+  &::-moz-placeholder {
+    color: @color;
+    opacity: 1;
+  }
+
+  /* - Internet Explorer 10–11
+   - Internet Explorer Mobile 10-11 */
+  &:-ms-input-placeholder {
+    color: @color !important;
+  }
+
+  /* Edge (also supports ::-webkit-input-placeholder) */
+  &::-ms-input-placeholder {
+    color: @color;
+  }
+
+  /* - Chrome ≤56,
+   - Safari 5-10.0
+   - iOS Safari 4.2-10.2
+   - Opera 15-43
+   - Opera Mobile >12
+   - Android Browser 2.1-4.4.4
+   - Samsung Internet
+   - UC Browser for Android
+   - QQ Browser */
+  &::-webkit-input-placeholder {
+    color: @color;
+  }
+
+  // Safari and Chrome
+  &::placeholder {
+    color: @color;
+  }
+}
+
+
+/* 
+  设置滚动条样式
+  @track-color: 轨道颜色
+  @thumb-color: 滑块颜色
+  @size: 滚动条大小
+  @border-radius: 滑块圆角  
+*/
+.scrollbar(@track-color: #f5f5f5;@thumb-color: #99a9bf; @size: 6px; @border-radius: 20px) {
+  // 定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸
+  &::-webkit-scrollbar {
+    width: @size;
+  }
+  &::-webkit-scrollbar-track-piece {
+    background: @track-color;
+  }
+  // 定义滚动条轨道 内阴影+圆角 &::-webkit-scrollbar-track
+
+  // 定义滑块 内阴影+圆角
+  &::-webkit-scrollbar-thumb {
+    background: @thumb-color;
+    border-radius: @border-radius;
+  }
+}

@@ -1,0 +1,7 @@
+/build/
+/mock/
+/dist/
+**/static/
+**/plugins/
+webpackSetting-output.js
+vue.config.js
