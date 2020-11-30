@@ -31,6 +31,7 @@ declare namespace NodeJS {
     readonly VUE_APP_USE_MOCK: "on" | "off";
     readonly BASE_URL: string;
     readonly VUE_APP_API: string;
+    readonly SentryDSN: string;
   }
 }
 

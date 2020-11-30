@@ -89,7 +89,7 @@
 
   import { isValidMobileS } from "@/utils/validateUtil";
 
-  import { useMessage } from "@/hooks/web/useMessage";
+  import { useMessage } from "@/hooks/useMessage";
 
   const { Toast } = useMessage();
 

@@ -1,4 +1,4 @@
-# vue2-ts-template
+# vue3-h5-template
 
 [更新日志](CHANGELOG.md)
 
@@ -20,11 +20,7 @@
 
 ## 介绍
 
-基于`element-ui`,`typescript`,`composition-api`实现的 vue3 风格的PC端脚手架
-
-## 注意
-
-本项目为未来升级到vue3做了准备，编写代码时请按照composition api的写法来写
+基于`vue3.x`,`typescript`,`webpack`实现的 vant 风格的h5模板
 
 ## 文档
 
@@ -104,154 +100,155 @@ yarn changelog # 生成CHANGELOG
 
 ## 项目目录说明
 ```
-├─.browserslistrc
-├─.editorconfig
-├─.env
-├─.env.development
-├─.env.production
-├─.env.test
-├─.eslintignore
-├─.eslintrc.js
-├─.gitignore
-├─.huskyrc
-├─.prettierignore
-├─.prettierrc
-├─.stylelintrc
-├─babel.config.js
-├─commitlint.config.js
-├─jest.config.js
-├─package-lock.json
-├─package.json
-├─README.md
-├─tsconfig.json
-├─vue.config.js
-├─tests
-├─static
-|   ├─vuex-3.5.1
-|   ├─vue-router-3.4.7
-|   ├─vue-2.6.11
-|   ├─elementui-2.13.2
-|   ├─axios-0.20.0
-├─src
-|  ├─App.vue
-|  ├─main.ts
-|  ├─registerServiceWorker.ts
-|  ├─utils //公共的util
-|  |   ├─commonUtil.ts //存放非常通用的方法 如isObject等
-|  |   ├─dataFormatUtil.ts //存放数据格式转换的方法，因为vue3没有filter所以该工具类里定义一些常用的和公用的数据格式转换方法，如果仅是某个模块用就放在写在模块目录里，建议写在模块的mixin里
-|  |   ├─domUtil.ts  //存放跟dom操作相关的一些方法。
-|  |   ├─elementDataAdaptor.ts //存放一些跟elementUI组件数据适配的一些通用方法。
-|  |   ├─httpUtil.ts //http请求方法工具类
-|  |   ├─localStorageUtil.ts //本地存储工具类包括localstore和sessionStorage，如果要用indexDB，也要封装在该工具类里，该工具的定位是客户端本地数据库的接口。
-|  |   ├─scroll-to.ts // 平缓滚动滚动条的方法
-|  |   ├─systemInfo.ts //获取平台和设备系统等信息的一些工具方法
-|  |   ├─timerManager.ts //定时器管理类
-|  |   ├─validateUtil.ts //一些数据合法有效性的校验方法
-|  |   └Vuewrap.ts //composition api的封装，所有用到的composition方法都要经它这一层包裹，方便后续升级vue3，没有export出的方法自行添加。
-|  ├─types //全局类型声明，如引入的插件等的声明。
-|  |   ├─global.d.ts
-|  |   ├─shims-tsx.d.ts
-|  |   └shims-vue.d.ts
-|  ├─styles
-|  |   ├─index.less
-|  |   ├─init.less
-|  |   ├─mixins.less
-|  |   ├─normalize.less
-|  |   └transition.less
-|  ├─store
-|  |   ├─index.ts
-|  |   ├─modules
-|  |   |    └app.ts
-|  ├─service
-|  |    ├─index.ts
-|  |    ├─modules
-|  ├─router
-|  |   ├─index.ts
-|  |   ├─types.ts
-|  |   ├─modules
-|  |   |    └basic.ts
-|  |   ├─guard //路由守卫的文件夹，需要定义路由守卫，可以在该目录下编写。
-|  |   |   ├─index.ts
-|  |   |   └NProgressGuard.ts
-|  ├─plugins
-|  |    └index.ts
-|  ├─modules
-|  |    ├─home  //业务模块home示例
-|  |    |  ├─setup.ts //模块代码运行前，执行的脚本，需要手动在模块代码运行前import
-|  |    |  ├─styles  //模块内部的样式文件
-|  |    |  ├─store //vuex 里的module，命名空间以[模块目录名]-[文件名]，无需在全局的/src/store里添加代码加入，会自动加入。
-|  |    |  |   └index.ts //如此处在vuex的module名为：home-index
-|  |    |  ├─service //存放数据处理，api请求，是在vue实例里 以this.$service.home或者this.getService()方法能够拿到的对象，详情请查看目录里的index文件。该文件夹下的内容自行管理
-|  |    |  |    └index.ts
-|  |    |  ├─router //存放模块的路由，无需在全局的/src/router里添加代码加入，会自动加入。
-|  |    |  |   └index.ts
-|  |    |  ├─pages //存放页面文件
-|  |    |  |   └Home.vue
-|  |    |  ├─mixin //存放模块的mixin文件，尽量将同一类的mixin写在一个文件里，然后进行组合
-|  |    |  |   └basic.ts
-|  |    |  ├─dataTypes //存放类型声明文件
-|  |    |  ├─components //存放模块内部的公共组件
-|  |    |  |     └HelloWorld.vue
-|  |    |  ├─assets //存放模块内部的图片，视频，svg图片的，svg的图片必须放在asset/svg下
-|  |    |  |   ├─video
-|  |    |  |   ├─svg
-|  |    |  |   |  └dashboard.svg
-|  |    |  |   ├─images
-|  |    |  ├─api  //存放模块内部的请求方法定义文件，vue实例里禁止直接import该文件，来请求api数据，而是通过this.$service.home或者this.getService()得到的对象来访问api请求，方便未来api请求层的替换
-|  |    |  |  └index.ts
-|  |    ├─error-pages
-|  |    |      └404.vue
-|  ├─mixins  //公共的通用的一些mixin方法，可从util目录里的选取要用的方法自行组合。
-|  |   └UIMixin.ts
-|  ├─icons
-|  |   ├─index.ts
-|  |   ├─svgo.yml
-|  |   ├─svg
-|  |   |  ├─tree-table.svg
-|  |   |  ├─tree.svg
-|  |   |  └user.svg
-|  ├─dataTypes //自行编写的类，接口等声明文件，公共部分的，如果仅是某个模块的，写在模块里
-|  |     ├─interface //接口
-|  |     |     └responseHelper.ts
-|  |     ├─impl //类
-|  |     |  └ResponseHelper.ts
-|  ├─components
-|  |     ├─inputFile.vue
-|  |     ├─SvgIcon
-|  |     |    └index.vue
-|  ├─assets
-|  |   ├─images
-|  |   |   └logo.png
-├─public
-|   ├─favicon.ico
-|   ├─index.html
-|   ├─robots.txt
-
-
-注：
-关于动态的vuex module可以在模块内部新建一个dynamicStore文件夹自行利用api自决定何时，在何处添加，公共的动态module 就在src/store下新建dynamic文件夹里编写
-关于动态路由添加可以在模块内部新建一个dynamicRouter文件夹自行利用api决定何时，在何处添加，公共的动态路由 就在src/router下新建dynamic文件夹里编写，
-建议写模块的mixin和数据转换，工具类方法前先到公共部分查找，如果没有问下项目小组成员是否其他模块要用，要用就写在公共部分里。建议加下用到的模块的注释。
+|-- .browserslistrc
+|-- .editorconfig
+|-- .env
+|-- .env.development
+|-- .env.production
+|-- .env.test
+|-- .eslintignore
+|-- .eslintrc.js
+|-- .gitignore
+|-- .huskyrc
+|-- .prettierignore
+|-- .prettierrc
+|-- .stylelintrc
+|-- babel.config.js
+|-- commitlint.config.js
+|-- jest.config.js
+|-- package-lock.json
+|-- package.json
+|-- README.md
+|-- tsconfig.json
+|-- vue.config.js
+|-- yarn-error.log
+|-- yarn.lock
+|-- mock
+|   |-- index.ts
+|   |-- _util.ts
+|   |-- demo
+|       |-- account.ts
+|-- public
+|   |-- favicon.ico
+|   |-- index.html
+|   |-- robots.txt
+|   |-- img
+|   |-- static
+|-- src
+|   |-- App.vue
+|   |-- main.ts
+|   |-- registerServiceWorker.ts
+|   |-- api
+|   |   |-- model
+|   |   |   |-- userModel.ts
+|   |   |-- user
+|   |       |-- index.ts
+|   |-- assets
+|   |   |-- icons
+|   |   |   |-- index.ts
+|   |   |   |-- svgo.yml
+|   |   |   |-- svg
+|   |   |       |-- tree-table.svg
+|   |   |-- images
+|   |   |   |-- close.png
+|   |   |-- styles
+|   |       |-- hairline.less
+|   |       |-- index.less
+|   |       |-- layout.less
+|   |       |-- normalize.less
+|   |       |-- reset.less
+|   |       |-- vant.less
+|   |       |-- var.less
+|   |       |-- mixins
+|   |           |-- bg-image.less
+|   |           |-- ellipsis.less
+|   |           |-- hairline.less
+|   |           |-- index.less
+|   |-- components
+|   |   |-- inputFile.vue
+|   |   |-- Navbar
+|   |-- enums
+|   |   |-- businessEnum.ts
+|   |   |-- httpEnum.ts
+|   |-- hooks
+|   |   |-- useMessage.tsx
+|   |-- router
+|   |   |-- basicRoutes.ts
+|   |   |-- index.ts
+|   |   |-- types.d.ts
+|   |   |-- modules
+|   |-- setup
+|   |   |-- directives
+|   |   |   |-- index.ts
+|   |   |   |-- repeatClick.ts
+|   |   |-- error-handle
+|   |   |   |-- index.ts
+|   |   |   |-- sentry.ts
+|   |   |   |-- types.ts
+|   |   |-- mobie-fit
+|   |   |   |-- index.ts
+|   |   |-- mta-point
+|   |       |-- index.ts
+|   |-- store
+|   |   |-- index.ts
+|   |   |-- modules
+|   |       |-- app.ts
+|   |       |-- user.ts
+|   |-- types
+|   |   |-- global.d.ts
+|   |   |-- shims-tsx.d.ts
+|   |   |-- shims-vue.d.ts
+|   |-- utils
+|   |   |-- dataUtil.ts
+|   |   |-- dateUtil.ts
+|   |   |-- domUtil.ts
+|   |   |-- index.ts
+|   |   |-- is.ts
+|   |   |-- scroll-to.ts
+|   |   |-- uuid.ts
+|   |   |-- validateUtil.ts
+|   |   |-- auth
+|   |   |   |-- index.ts
+|   |   |-- file
+|   |   |   |-- download.ts
+|   |   |   |-- stream.ts
+|   |   |-- http
+|   |   |   |-- Axios.ts
+|   |   |   |-- axiosCancel.ts
+|   |   |   |-- axiosTransform.ts
+|   |   |   |-- checkStatus.ts
+|   |   |   |-- const.ts
+|   |   |   |-- index.ts
+|   |   |   |-- types.ts
+|   |   |-- native
+|   |       |-- index.ts
+|   |       |-- types.ts
+|   |-- views
+|       |-- patient
+|           |-- login.vue
+|-- tests
+    |-- unit
+        |-- example.spec.ts
 
 ```
 ## 已完成功能
 
 - [x] 项目搭建（基于 vue-cli）
+- [x] axios 封装
+- [x] App端 DsBridge 封装
+- [x] sentry 异常监控配置
 
 ## 正在开发的功能
 
-- [ ] axios 封装
+- [ ] Jest 单元测试用例
+- [ ] hooks 封装 toast 相关组件
 
 ## 学习文档
 
-- [vue3-资源合集](https://vue3js.cn/)
-
-- [composition-api使用文档](https://github.com/vuejs/composition-api/blob/master/README.zh-CN.md)
-
-- [puppeteer使用文档](https://github.com/puppeteer/puppeteer)
+- [vue3-中文学习文档](https://vue3js.cn/docs/zh/)
 
 - [jest使用文档](https://jestjs.io/docs/zh-Hans/getting-started.html)
 
 - [less使用文档](https://less.bootcss.com/)
 
-- [scss 使用文档](https://www.sass.hk/)
+- [Typescript 使用文档](https://jkchao.github.io/typescript-book-chinese/#why)

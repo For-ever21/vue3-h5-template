@@ -9,15 +9,13 @@ import { AxiosTransform } from "./axiosTransform";
 
 import { checkStatus } from "./checkStatus";
 
-import { useMessage } from "@/hooks/web/useMessage";
+import { useMessage } from "@/hooks/useMessage";
 
 import { RequestEnum, ResultEnum, ContentTypeEnum } from "@/enums/httpEnum";
 
 import { isString } from "@/utils/is";
-// import { formatRequestDate } from "@/utils/dateUtil";
-// import { setObjToUrlParams, deepMerge } from "@/utils";
 import { deepMerge } from "@/utils";
-// import { errorStore } from '/@/store/modules/error';
+import { errorServiceReport } from '@/setup/error-handle/sentry';
 import { errorResult } from "./const";
 
 const { Toast } = useMessage();
@@ -111,8 +109,7 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
-    // errorStore.setupErrorHandle(error); // 错误全局捕获
-    
+    errorServiceReport(error) // 接口异常 上报
     const { response, code, message } = error || {};
     // console.log(response, code, message);
     const msg: string =

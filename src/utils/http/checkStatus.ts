@@ -1,4 +1,4 @@
-import { useMessage } from "@/hooks/web/useMessage";
+import { useMessage } from "@/hooks/useMessage";
 // import { userStore } from '@/store/modules/user';
 const { Toast } = useMessage();
 

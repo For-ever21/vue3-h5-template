@@ -15,6 +15,8 @@
     "inspect": "vue inspect > webpackSetting-output.js"
   },
   "dependencies": {
+    "@sentry/browser": "^5.27.6",
+    "@sentry/integrations": "^5.27.6",
     "amfe-flexible": "^2.2.1",
     "axios": "^0.21.0",
     "compare-versions": "^3.6.0",
@@ -64,6 +66,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
     "lint-staged": "^10.4.0",
+    "mddir": "^1.1.1",
     "postcss-pxtorem": "^5.1.1",
     "prettier": "^2.1.2",
     "stylelint": "^13.7.2",
@@ -75,6 +78,7 @@
     "typescript": "~4.0.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-jest": "^5.0.0-0",
+    "vue-template-compiler": "^2.6.12",
     "webpack-bundle-analyzer": "^3.9.0"
   },
   "gitHooks": {

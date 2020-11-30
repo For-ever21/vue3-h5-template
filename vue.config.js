@@ -15,9 +15,9 @@ const productionGzip = true
 const productionGzipExtensions = ['js', 'css']
 
 module.exports = {
-  publicPath: process.env.VUE_APP_PUBLIC_PATH, // 默认'/'，部署应用包时的基本 URL
-  outputDir: process.env.VUE_APP_OUTPUT_DIR || "dist", // 'dist', 生产环境构建文件的目录
-  assetsDir: process.env.VUE_APP_STATIC_DIR || "static", // 相对于outputDir的静态资源(js、css、img、fonts)目录
+  publicPath: process.env.PublicPath, // 默认'/'，部署应用包时的基本 URL
+  outputDir: process.env.OutputDir || "dist", // 'dist', 生产环境构建文件的目录
+  assetsDir: process.env.AssetsDir || "static", // 相对于outputDir的静态资源(js、css、img、fonts)目录
   filenameHashing: true, // 生成的静态资源文件名是否使用哈希
   lintOnSave: false,
   productionSourceMap: false, // 生产环境的 source map
@@ -43,7 +43,7 @@ module.exports = {
   chainWebpack(config) {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
-    config.set('name', process.env.appName);
+    config.set('name', process.env.AppName);
     config.resolve.alias
       // .set("vue$", "vue/dist/vue.esm.js")
       .set("@", resolve("src"))
@@ -89,7 +89,7 @@ module.exports = {
     config.plugin("html").tap((args) => {
       // html中添加cdn
       // args[0].cdn = cdn;
-      args[0].title = process.env.appName;
+      args[0].title = process.env.AppName;
       return args;
     });
     // 拷贝插件 从 from 拷贝 到 to
@@ -97,7 +97,7 @@ module.exports = {
     //   args[0].push({
     //     from: resolve(process.env.VUE_APP_STATIC_DIR),
     //     to: resolve(
-    //       process.env.VUE_APP_OUTPUT_DIR + "/" + process.env.VUE_APP_STATIC_DIR
+    //       process.env.OutputDir + "/" + process.env.VUE_APP_STATIC_DIR
     //     ),
     //     ignore: [".*"],
     //   });
@@ -134,7 +134,7 @@ module.exports = {
     return myConfig
   },
   pwa: {
-    "name": process.env.appName,
+    "name": process.env.AppName,
     // icon:[],
   },
   devServer: {
